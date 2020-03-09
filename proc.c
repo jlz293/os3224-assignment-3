@@ -279,6 +279,14 @@ scheduler(void)
     // Loop over process table looking for process to run.
     acquire(&ptable.lock);
     for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+      /*
+        Hello OS 3224 student!
+
+        The code below is the default round-robin
+        scheduling algorithim. Replace this with
+        first come first serve for assignment 3.
+       */
+
       if(p->state != RUNNABLE)
         continue;
 
