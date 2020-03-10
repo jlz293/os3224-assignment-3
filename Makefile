@@ -187,6 +187,7 @@ UPROGS=\
 	_wc\
 	_zombie\
 	_schedtest\
+	$(shell if grep 'wait_stat' user.h > /dev/null; then echo _wstattest; fi) \
 
 fs.img: mkfs README.md $(UPROGS)
 	./mkfs fs.img README.md $(UPROGS)
@@ -223,7 +224,7 @@ QEMUGDB = $(shell if $(QEMU) -help | grep -q '^-gdb'; \
 	then echo "-gdb tcp::$(GDBPORT)"; \
 	else echo "-s -p $(GDBPORT)"; fi)
 ifndef CPUS
-CPUS := 2
+CPUS := 1
 endif
 #QEMUOPTS = -hdb fs.img xv6.img -smp $(CPUS) -m 512 $(QEMUEXTRA) -nographic
 
