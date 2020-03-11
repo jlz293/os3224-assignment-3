@@ -150,6 +150,12 @@ vectors.S: vectors.pl
 
 ULIB = ulib.o usys.o printf.o umalloc.o
 
+sumtofunc.o:
+	$(CC) $(CFLAGS) -c -o $@ sumtofunc.S
+
+_sumto: sumto.o sumtofunc.o $(ULIB)
+	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o $@ $^
+
 _%: %.o $(ULIB)
 	$(LD) $(LDFLAGS) -N -e main -Ttext 0 -o $@ $^
 	$(OBJDUMP) -S $@ > $*.asm
@@ -187,6 +193,7 @@ UPROGS=\
 	_wc\
 	_zombie\
 	_schedtest\
+	_sumto\
 	$(shell if grep 'wait_stat' user.h > /dev/null; then echo _wstattest; fi) \
 
 fs.img: mkfs README.md $(UPROGS)
